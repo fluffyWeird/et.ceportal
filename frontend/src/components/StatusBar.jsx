@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const Stats = ({ stats = [] }) => {
+const StatusBar = ({ stats = [] }) => {
   return (
     <section className="py-12 bg-base-200 px-6 md:px-12 lg:px-24">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-center">
@@ -47,4 +47,4 @@ const AnimatedNumber = ({ value }) => {
   return count.toLocaleString();
 };
 
-export default Stats;
+export default StatusBar;
