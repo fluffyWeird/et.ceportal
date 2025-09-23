@@ -1,10 +1,10 @@
 import React from "react";
-import Header from "../components/header";
-import Footer from "../components/footer";
-import Hero from "../components/hero";
-import Message from "../components/message";
-import Stats from "../components/stat";
-import NewsCard from "../components/newsCard";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Hero from "../components/Hero";
+import Message from "../components/Message";
+import Stats from "../components/StatusBar";
+import NewsCard from "../components/NewsCard";
 import Services from "../components/Services";
 const Home = () => {
   return (
