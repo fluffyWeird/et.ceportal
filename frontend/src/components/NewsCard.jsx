@@ -18,7 +18,7 @@ const NewsCard = ({ newsItems = [] }) => {
             onClick={() => setSelectedNews(news)}
           >
             <img
-              src={`${BACKEND_URI}${news.image}`}
+              src={`${news.image}`}
               alt={news.title}
               className="w-full h-32 object-cover rounded-md mb-2"
             />
@@ -52,7 +52,7 @@ const NewsCard = ({ newsItems = [] }) => {
               exit={{ scale: 0.8 }}
             >
               <img
-                src={`${BACKEND_URI}${selectedNews.image}`}
+                src={`${selectedNews.image}`}
                 alt={selectedNews.title}
                 className="w-full h-FULL object-cover rounded-md mb-4"
               />

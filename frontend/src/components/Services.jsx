@@ -38,7 +38,7 @@ const Services = ({ servicesItems }) => {
             >
               <div className="card bg-base-100 shadow-md p-3 rounded-lg h-full flex flex-col">
                 <img
-                  src={`${BACKEND_URI}${service.image}`}
+                  src={`${service.image}`}
                   alt={service.title}
                   className="w-full h-32 md:h-48 object-cover rounded-md mb-4"
                 />

@@ -40,9 +40,7 @@ const Home = () => {
                 title: item.title || "No Title",
                 subtitle: item.sutitle || "",
                 buttonText: item.buttonText || "Learn More",
-                image: item.image?.url
-                  ? BACKEND_URI + item.image.url
-                  : "/placeholder.jpg",
+                image: item.image.url,
               }))
             );
 

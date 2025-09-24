@@ -26,11 +26,7 @@ const Message = ({ authors = [], interval = 5000 }) => {
         {/* Left side - Author info */}
         <div className="flex flex-col items-start">
           <img
-            src={
-              author?.authorImage
-                ? `${BACKEND_URI}${author.authorImage}`
-                : "/placeholder.jpg"
-            }
+            src={author?.authorImage}
             alt={author?.authorName || "Author"}
             className="w-24 h-24 rounded-full mb-4 object-cover shadow-md"
           />
