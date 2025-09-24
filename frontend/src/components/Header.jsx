@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../assets/Addis.png";
 
 const Header = () => {
   return (
@@ -6,17 +7,27 @@ const Header = () => {
       {/* Left Section - Logo */}
       <div className="flex-1">
         <a className="btn btn-ghost normal-case text-2xl font-bold">
-          ADDIS REPLICA
+          <img src={logo} className="w-12" />
         </a>
       </div>
 
       {/* Right Section - Nav Links */}
-      <div className="hidden md:flex gap-4">
-        <a className="btn btn-ghost">Home</a>
-        <a className="btn btn-ghost">Service</a>
-        <a className="btn btn-ghost">Programs</a>
-        <a className="btn btn-ghost">Economy</a>
-        <a className="btn btn-ghost">Resource</a>
+      <div className="hidden md:flex gap-1">
+        <a href="#home" className="btn btn-ghost">
+          Home
+        </a>
+        <a href="#stats" className="btn btn-ghost">
+          Stats
+        </a>
+        <a href="#messages" className="btn btn-ghost">
+          Message
+        </a>
+        <a href="#service" className="btn btn-ghost">
+          Services
+        </a>
+        <a href="#news" className="btn btn-ghost">
+          News
+        </a>
       </div>
 
       {/* Mobile Menu */}

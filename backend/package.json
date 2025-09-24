@@ -22,6 +22,7 @@
     "better-sqlite3": "11.3.0",
     "fs-extra": "^10.0.0",
     "mime-types": "^2.1.27",
+    "pg": "^8.16.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
@@ -38,7 +39,7 @@
     "npm": ">=6.0.0"
   },
   "strapi": {
-    "uuid": "ee2d75ba-eda5-4b8a-95df-46899ea0502f",
-    "installId": "01f0af843668f059d24a4c5d96fa7d1abd532a1e74528b3976756d279be4a477"
+    "uuid": "b2c76648-a257-40b0-80f9-49d14916f8fa",
+    "installId": "0d8cdea811a3a23e61c817edc2adb5fa59fdf2bbbe9eac3520457a6ae4436447"
   }
 }

@@ -1,42 +1,61 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-const Message = ({
-  authorImage = "https://picsum.photos/100/100", // default placeholder
-  authorMessage = "A short inspirational message from the author goes here.",
-  authorName = "John Doe",
-  authorTitle = "CEO, MyBlogCMS",
-  authorDivision = "Creative Division",
-  fullMessage = "This is the full message content written by the author. It can be several paragraphs long and gives detailed insight into their thoughts, vision, or purpose.",
-}) => {
+const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
+
+const Message = ({ authors = [], interval = 5000 }) => {
+  const [index, setIndex] = useState(0);
+
+  // Cycle through authors
+  useEffect(() => {
+    if (authors.length === 0) return;
+
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % authors.length);
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [authors, interval]);
+
+  if (authors.length === 0) return null;
+
+  const author = authors[index];
+
   return (
     <section className="py-12 px-6 md:px-12 lg:px-24 bg-base-100">
       <div className="grid md:grid-cols-2 gap-12 items-start">
         {/* Left side - Author info */}
         <div className="flex flex-col items-start">
-          {/* Author Image */}
           <img
-            src={authorImage}
-            alt={authorName}
+            src={
+              author?.authorImage
+                ? `${BACKEND_URI}${author.authorImage}`
+                : "/placeholder.jpg"
+            }
+            alt={author?.authorName || "Author"}
             className="w-24 h-24 rounded-full mb-4 object-cover shadow-md"
           />
 
-          {/* Author Message */}
           <blockquote className="text-xl italic font-light text-gray-700 border-l-4 border-primary pl-4 mb-4">
-            “{authorMessage}”
+            “{author?.authorMessage || "No message available"}”
           </blockquote>
 
-          {/* Author Name + Title */}
-          <p className="font-semibold text-lg">{authorName}</p>
-          <p className="text-gray-500">{authorTitle}</p>
-
-          {/* Division */}
-          <p className="mt-2 text-sm text-gray-400">{authorDivision}</p>
+          <p className="font-semibold text-lg">
+            {author?.authorName || "No Name"}
+          </p>
+          <p className="text-gray-500">{author?.authorTitle || "No Title"}</p>
+          {author?.authorDivision && (
+            <p className="mt-2 text-sm text-gray-400">
+              {author.authorDivision}
+            </p>
+          )}
         </div>
 
         {/* Right side - Full message */}
         <div>
           <h2 className="text-3xl font-bold mb-4">Message</h2>
-          <p className="text-gray-700 leading-relaxed">{fullMessage}</p>
+          <p className="text-gray-700 leading-relaxed">
+            {author?.fullMessage || "No full message available."}
+          </p>
         </div>
       </div>
     </section>

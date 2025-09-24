@@ -1,28 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const Hero = ({
-  slides = [],
-  interval = 5000, // 5 seconds
-}) => {
+const Hero = ({ slides = [], interval = 5000 }) => {
   const [index, setIndex] = useState(0);
 
   // Auto-slide logic
   useEffect(() => {
+    if (slides.length === 0) return; // ✅ prevent interval with empty slides
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % slides.length);
     }, interval);
     return () => clearInterval(timer);
   }, [slides.length, interval]);
 
+  // ✅ Prevent undefined access
+  if (!slides || slides.length === 0) {
+    return (
+      <div className="h-[70vh] w-full flex items-center justify-center bg-gray-200">
+        <p className="text-gray-600">Loading hero...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="relative h-[70vh] w-full overflow-hidden">
+    <div id="#home" className="relative h-[70vh] w-full overflow-hidden">
       {/* Background images with fade animation */}
       <AnimatePresence mode="wait">
         <motion.img
           key={index}
-          src={slides[index].image}
-          alt={slides[index].title}
+          src={slides[index]?.image}
+          alt={slides[index]?.title || "Hero slide"}
           className="absolute top-0 left-0 w-full h-full object-cover"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -35,11 +42,11 @@ const Hero = ({
       <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
         <div className="text-center text-white px-6 max-w-2xl">
           <h1 className="text-5xl md:text-7xl font-extrabold drop-shadow-lg">
-            {slides[index].title}
+            {slides[index]?.title}
           </h1>
-          <p className="mt-4 text-lg md:text-xl">{slides[index].subtitle}</p>
+          <p className="mt-4 text-lg md:text-xl">{slides[index]?.subtitle}</p>
           <button className="btn btn-primary mt-6">
-            {slides[index].buttonText || "Learn More"}
+            {slides[index]?.buttonText || "Learn More"}
           </button>
         </div>
       </div>

@@ -1,9 +1,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const StatusBar = ({ stats = [] }) => {
+const StatusBar = ({ stats }) => {
   return (
-    <section className="py-12 bg-base-200 px-6 md:px-12 lg:px-24">
+    <section id="status" className="py-32 bg-base-200 px-6 md:px-12 lg:px-24">
+      {" "}
+      <h2 className="text-2xl font-bold mb-4">Stats</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-center">
         {stats.map((stat, idx) => (
           <div key={idx} className="bg-base-100 p-6 rounded-lg shadow-md">
@@ -13,7 +15,7 @@ const StatusBar = ({ stats = [] }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: idx * 0.3 }}
             >
-              <AnimatedNumber value={stat.value} />
+              <p>{stat.value}</p>
             </motion.div>
             <p className="mt-2 text-gray-600">{stat.key}</p>
           </div>

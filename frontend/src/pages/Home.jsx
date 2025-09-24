@@ -1,4 +1,6 @@
-import React from "react";
+// Home.jsx
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
@@ -6,144 +8,100 @@ import Message from "../components/Message";
 import Stats from "../components/StatusBar";
 import NewsCard from "../components/NewsCard";
 import Services from "../components/Services";
+
 const Home = () => {
+  const [heroSlides, setHeroSlides] = useState([]);
+  const [statsData, setStatsData] = useState([]);
+  const [authorData, setAuthorData] = useState({});
+  const [newsItems, setNewsItems] = useState([]);
+  const [servicesItems, setServicesItems] = useState([]);
+
+  const BACKEND_URI = import.meta.env.VITE_BACKEND_URI;
+
+  useEffect(() => {
+    if (!BACKEND_URI) return console.error("❌ BACKEND_URI not found");
+
+    const endpoints = {
+      heroes: `${BACKEND_URI}/api/heroes?populate=*`,
+      stats: `${BACKEND_URI}/api/stats?populate=*`,
+      authors: `${BACKEND_URI}/api/authors?populate=*`,
+      news: `${BACKEND_URI}/api/newss?populate=*`,
+      services: `${BACKEND_URI}/api/services?populate=*`,
+    };
+
+    axios
+      .all(Object.values(endpoints).map((url) => axios.get(url)))
+      .then(
+        axios.spread(
+          (heroesRes, statsRes, authorsRes, newsRes, servicesRes) => {
+            // HEROES
+            setHeroSlides(
+              heroesRes.data.data.map((item) => ({
+                title: item.title || "No Title",
+                subtitle: item.sutitle || "",
+                buttonText: item.buttonText || "Learn More",
+                image: item.image?.url
+                  ? BACKEND_URI + item.image.url
+                  : "/placeholder.jpg",
+              }))
+            );
+
+            // STATS
+            setStatsData(
+              statsRes.data.data.map((stat) => ({
+                key: stat.key || "No Key",
+                value: stat.value || 0,
+              }))
+            );
+
+            // AUTHOR
+
+            setAuthorData(
+              authorsRes.data.data.map((i) => ({
+                authorImage: i.avatar.url || "/placeholder.jpg",
+
+                authorMessage: i.message || "",
+                authorName: i.name || "",
+                authorTitle: i.tittle || "",
+                authorDivision: "hi",
+                fullMessage: i.fullMessage || "",
+              }))
+            );
+
+            // NEWS
+            setNewsItems(
+              newsRes.data.data.map((item) => ({
+                image: item.image.url || "/placeholder.jpg",
+                title: item.title || "No Title",
+                summary: item.summary || "",
+                date: item.date || "",
+              }))
+            );
+
+            // SERVICES
+            setServicesItems(
+              servicesRes.data.data.map((item) => ({
+                image: item.image.url || "/placeholder.jpg",
+                title: item.title || "No Title",
+                summary: item.summary || "",
+                date: item.date || "",
+              }))
+            );
+          }
+        )
+      )
+      .catch((err) => console.error("Error fetching Strapi data:", err));
+  }, [BACKEND_URI]);
+
   return (
-    <div className="">
+    <div>
       <Header />
-      <Hero
-        slides={[
-          {
-            image: "https://picsum.photos/1200/600?random=1",
-            title: "Discover Amazing Stories",
-            subtitle: "A calm place for ideas and creativity",
-            buttonText: "Read Blogs",
-          },
-          {
-            image: "https://picsum.photos/1200/600?random=2",
-            title: "Share Your Thoughts",
-            subtitle: "Write and inspire others with your words",
-            buttonText: "Start Writing",
-          },
-          {
-            image: "https://picsum.photos/1200/600?random=3",
-            title: "Join Our Community",
-            subtitle: "Connect with readers and writers worldwide",
-            buttonText: "Get Started",
-          },
-          {
-            image: "https://picsum.photos/1200/600?random=3",
-            title: "Join Our Community",
-            subtitle: "Connect with readers and writers worldwide",
-            buttonText: "Get Started",
-          },
-          {
-            image: "https://picsum.photos/1200/600?random=3",
-            title: "Join Our Community",
-            subtitle: "Connect with readers and writers worldwide",
-            buttonText: "Get Started",
-          },
-          {
-            image: "https://picsum.photos/1200/600?random=3",
-            title: "Join Our Community",
-            subtitle: "Connect with readers and writers worldwide",
-            buttonText: "Get Started",
-          },
-          {
-            image: "https://picsum.photos/1200/600?random=3",
-            title: "Join Our Community",
-            subtitle: "Connect with readers and writers worldwide",
-            buttonText: "Get Started",
-          },
-        ]}
-      />
-      <Stats
-        stats={[
-          { key: "Users", value: 1200 },
-          { key: "Blogs Published", value: 350 },
-          { key: "Active Authors", value: 85 },
-          { key: "Countries", value: 15 },
-        ]}
-      />
+      <Hero slides={heroSlides} />
+      <Stats stats={statsData} />
+      <Message authors={authorData} />
 
-      <Message
-        authorImage="https://randomuser.me/api/portraits/women/44.jpg"
-        authorMessage="Writing is the painting of the voice."
-        authorName="Jane Smith"
-        authorTitle="Editor-in-Chief"
-        authorDivision="Publishing Division"
-        fullMessage="At MyBlogCMS, we believe in empowering voices and sharing stories that matter. Writing allows us to connect across cultures and generations, bridging gaps and inspiring change..."
-      />
-
-      <Services
-        newsItems={[
-          {
-            image: "https://picsum.photos/200/150?random=1",
-            title: "New CMS Features Released",
-            summary: "Explore the latest updates to our blogging platform.",
-            date: "Sep 22, 2025",
-          },
-          {
-            image: "https://picsum.photos/200/150?random=2",
-            title: "Community Spotlight",
-            summary: "Highlighting top stories from our creative authors.",
-            date: "Sep 20, 2025",
-          },
-          {
-            image: "https://picsum.photos/200/150?random=3",
-            title: "Tips for Writers",
-            summary: "How to keep readers engaged with your blog content.",
-            date: "Sep 18, 2025",
-          },
-          {
-            image: "https://picsum.photos/200/150?random=4",
-            title: "CMS Best Practices",
-            summary: "Learn how to manage your content effectively.",
-            date: "Sep 16, 2025",
-          },
-          {
-            image: "https://picsum.photos/200/150?random=5",
-            title: "Writing Tips & Tricks",
-            summary: "Improve your storytelling skills easily.",
-            date: "Sep 14, 2025",
-          },
-        ]}
-      />
-
-      <NewsCard
-        newsItems={[
-          {
-            image: "https://picsum.photos/200/150?random=1",
-            title: "New CMS Features Released",
-            summary: "Explore the latest updates to our blogging platform.",
-            date: "Sep 22, 2025",
-          },
-          {
-            image: "https://picsum.photos/200/150?random=2",
-            title: "Community Spotlight",
-            summary: "Highlighting top stories from our creative authors.",
-            date: "Sep 20, 2025",
-          },
-          {
-            image: "https://picsum.photos/200/150?random=3",
-            title: "Tips for Writers",
-            summary: "How to keep readers engaged with your blog content.",
-            date: "Sep 18, 2025",
-          },
-          {
-            image: "https://picsum.photos/200/150?random=4",
-            title: "CMS Best Practices",
-            summary: "Learn how to manage your content effectively.",
-            date: "Sep 16, 2025",
-          },
-          {
-            image: "https://picsum.photos/200/150?random=5",
-            title: "Writing Tips & Tricks",
-            summary: "Improve your storytelling skills easily.",
-            date: "Sep 14, 2025",
-          },
-        ]}
-      />
-
+      <Services servicesItems={servicesItems} />
+      <NewsCard newsItems={newsItems} />
       <Footer />
     </div>
   );
